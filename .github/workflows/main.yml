@@ -4,12 +4,15 @@ jobs:
   download-and-save:
     runs-on: ubuntu-latest
     steps:
-      - name: 拉取并打包
+      - name: 拉取并打包镜像
         run: |
-          docker pull ifish/csvn:latest
-          docker save ifish/csvn:latest > csvn_image.tar
+          # 拉取目前公认最稳的 Subversion Edge 镜像
+          docker pull marcelmaatkamp/subversion-edge:latest
+          # 将其打包为 tar 文件
+          docker save marcelmaatkamp/subversion-edge:latest > csvn_image.tar
       - name: 上传文件供下载
         uses: actions/upload-artifact@v4
         with:
-          name: csvn-package # 下载时的文件名
+          name: csvn-package # 这是您下载时压缩包的名字
           path: csvn_image.tar
+          retention-days: 1 # 文件保留1天，够您下载了
