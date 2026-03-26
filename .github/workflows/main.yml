@@ -1,0 +1,15 @@
+name: 打包SVN镜像
+on: [workflow_dispatch] # 允许手动点击开始
+jobs:
+  download-and-save:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取并打包
+        run: |
+          docker pull ifish/csvn:latest
+          docker save ifish/csvn:latest > csvn_image.tar
+      - name: 上传文件供下载
+        uses: actions/upload-artifact@v4
+        with:
+          name: csvn-package # 下载时的文件名
+          path: csvn_image.tar
